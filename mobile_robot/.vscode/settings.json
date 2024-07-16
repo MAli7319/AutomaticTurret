@@ -1,0 +1,20 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/masenturk/ros2_ws/install/my_robot_interfaces/local/lib/python3.10/dist-packages",
+        "/home/masenturk/ros2_ws/build/my_robot_controller",
+        "/home/masenturk/ros2_ws/install/my_robot_controller/lib/python3.10/site-packages",
+        "/home/masenturk/ros2_ws/build/actions_py",
+        "/home/masenturk/ros2_ws/install/actions_py/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/masenturk/ros2_ws/install/my_robot_interfaces/local/lib/python3.10/dist-packages",
+        "/home/masenturk/ros2_ws/build/my_robot_controller",
+        "/home/masenturk/ros2_ws/install/my_robot_controller/lib/python3.10/site-packages",
+        "/home/masenturk/ros2_ws/build/actions_py",
+        "/home/masenturk/ros2_ws/install/actions_py/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}
