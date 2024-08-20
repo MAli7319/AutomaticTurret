@@ -1,28 +1,52 @@
 import rclpy
 from rclpy.node import Node
-from trajectory_msgs.msg import JointTrajectory
-from std_msgs.msg import Float64
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from builtin_interfaces.msg import Duration
+from std_msgs.msg import Header
 
 
-class CommandToJointState(Node):
+class TurretRotationCommand(Node):
 
 
     def __init__(self):
 
-        super().__init__('command_to_joint_state')
+        super().__init__('turret_rotation_command_py')
 
-        self.joint_name = self.declare_parameter('joint_name', 'turret_joint').value
-        self.target_pos = self.declare_parameter('target_position', [1.8]).value
-        self.seconds = self.declare_parameter('seconds', 0).value
-        self.nanoseconds = self.declare_parameter('nanoseconds', 0).value
-        self.points = {positions:}
+        self.turret_pose_publisher = self.create_publisher(JointTrajectory, '/turret_controller/joint_trajectory', 1)
 
-        self.joint_trajectory = JointTrajectory()
-        self.joint_trajectory.joint_names.append(self.joint_name)
-        self.joint_trajectory.points.append()
-        self.joint_state.velocity.append(0.0)
-        self.joint_pub = self.create_publisher(JointState, '/joint_states', 10)
-        print(1)
+        self.frame_id = "base_link"
+
+        self.timer_period = 5.0  
+        self.duration_sec = 2 
+        self.duration_nanosec = 0.5 * 1e9
+        self.timer = self.create_timer(self.timer_period, self.timer_callback)
+
+        self.turret_positions = []
+        self.turret_positions.append([0.4]) 
+
+        # Keep track of the current trajectory we are executing
+        self.index = 0
+
+
+    def timer_callback(self):
+
+        msg_turret = JointTrajectory()
+        msg_turret.header = Header()  
+        msg_turret.header.frame_id = self.frame_id  
+        msg_turret.joint_names = ['turret_joint']
+
+        point_turret = JointTrajectoryPoint()
+        point_turret.positions = self.turret_positions[self.index]
+        point_turret.time_from_start = Duration(sec=int(self.duration_sec), nanosec=int(self.duration_nanosec))  
+
+        msg_turret.points.append(point_turret)
+        self.turret_pose_publisher.publish(msg_turret)
+
+        # Reset the index
+        if self.index == len(self.turret_positions) - 1:
+            self.index = 0
+        else:
+            self.index = self.index + 1
 
     
 
@@ -30,10 +54,12 @@ class CommandToJointState(Node):
 
 
 def main(args=None):
+
     rclpy.init(args=args)
-    command_to_joint_state = CommandToJointState()
-    rclpy.spin(command_to_joint_state)
-    
+    turret_rotation_command = TurretRotationCommand()
+    rclpy.spin(turret_rotation_command)
+    turret_rotation_command.destroy_node()
+    rclpy.shutdown()
 
 
 if __name__ == '__main__':
