@@ -739,14 +739,6 @@
 		},
 		{
 			"isExternal" : true,
-			"path" : "/opt/ros/humble/share/ament_cmake_libraries/cmake/ament_libraries_pack_build_configuration.cmake"
-		},
-		{
-			"isExternal" : true,
-			"path" : "/opt/ros/humble/share/ament_cmake_libraries/cmake/ament_libraries_unpack_build_configuration.cmake"
-		},
-		{
-			"isExternal" : true,
 			"path" : "/opt/ros/humble/share/ament_cmake_core/cmake/ament_cmake_coreConfig-version.cmake"
 		},
 		{

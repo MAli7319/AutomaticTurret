@@ -2,7 +2,16 @@ import rclpy
 from rclpy.node import Node
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from builtin_interfaces.msg import Duration
-from std_msgs.msg import Header
+from std_msgs.msg import Header, String
+
+
+## TWO IMPORTANT CONSTANTS TO REMEMBER
+IMAGE_WIDTH = 640    
+CAMERA_FOV = 90
+
+
+TARGET_X1 = 0
+TARGET_X2 = 0
 
 
 class TurretRotationCommand(Node):
@@ -13,6 +22,8 @@ class TurretRotationCommand(Node):
         super().__init__('turret_rotation_command_py')
 
         self.turret_pose_publisher = self.create_publisher(JointTrajectory, '/turret_controller/joint_trajectory', 1)
+        self.target_coords_subscriber = self.create_subscription(String, '/target_coordinates', self.target_coords_callback, 10)
+        self.check = 0
 
         self.frame_id = "base_link"
 
@@ -22,10 +33,29 @@ class TurretRotationCommand(Node):
         self.timer = self.create_timer(self.timer_period, self.timer_callback)
 
         self.turret_positions = []
-        self.turret_positions.append([0.4]) 
-
+        self.turret_positions.append([0.0]) 
         # Keep track of the current trajectory we are executing
         self.index = 0
+
+     
+
+    def calculate_turning_angle(self, x1, x2):
+
+        target_center = (x1 + x2) // 2
+        difference = ((IMAGE_WIDTH // 2 - target_center) * CAMERA_FOV // 2) / (IMAGE_WIDTH // 2)
+        turning_angle = round(3.14 * difference / 180, 2)
+
+        return turning_angle
+
+
+    def target_coords_callback(self, coords):
+
+        TARGET_X1 = int(coords.data.split(",")[0])
+        TARGET_X2 = int(coords.data.split(",")[1])
+
+        self.turning_angle = self.calculate_turning_angle(TARGET_X1, TARGET_X2)
+        self.turret_positions.clear()
+        self.turret_positions.append([self.turning_angle]) 
 
 
     def timer_callback(self):

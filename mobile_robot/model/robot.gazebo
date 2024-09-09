@@ -37,7 +37,7 @@
     </gazebo>
 
     <gazebo reference="gun_link">
-        <material>Gazebo/Orange</material>
+        <material>Gazebo/Black</material>
     </gazebo>
 
     <gazebo reference="front_camera_link">

@@ -86,7 +86,7 @@ class MultiImageSubscriber(Node):
             for box in boxes:
                 if box.cls[0] == 1 and box.conf[0] > 0.6:
                     r = box.xyxy[0].astype(int) 
-                    coords.data = str(r)
+                    coords.data = f"{str(r[0])},{str(r[2])}"
                     cars.append(r)
                     class_id = int(box.cls[0]) 
                     #class_name = self.model.names[class_id]  
