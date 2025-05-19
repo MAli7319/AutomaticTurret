@@ -1,13 +1,13 @@
 # 🛡️ Automatic Turret: Autonomous Target Acquisition System
 
-Welcome to the **Automatic Turret** project—a ROS 2-based system that enables an armored vehicle to autonomously detect and track targets without human intervention. Leveraging the power of YOLOv8 for object detection and precise camera calibration, this system calculates the target's position relative to the vehicle and commands the turret to align accordingly.
+Welcome to the **Automatic Turret** project—a ROS 2-based system that enables an armored vehicle to autonomously detect and track targets without human intervention. Leveraging the power of YOLOv8 for object detection and related camera parameters, this system calculates the target's position relative to the camera and commands the turret to align accordingly.
 
 ---
 
 ## 📌 Features
 
 - **Real-time Object Detection**: Utilizes [YOLOv8](https://github.com/ultralytics/ultralytics) for efficient and accurate target detection.
-- **Camera Calibration**: Employs intrinsic camera parameters to determine the target's position in 3D space.
+- **Calculating the Position**: Employs some of the intrinsic camera parameters to determine the target's position with respect to the camera.
 - **Autonomous Turret Control**: Calculates the necessary joint angles and commands the turret to align with the detected target.
 - **ROS 2 Integration**: Built upon the ROS 2 framework for modularity and scalability.
 - **Simulation Support**: Compatible with simulation environments for testing and development.
